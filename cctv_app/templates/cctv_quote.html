@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCTV Setup Cost Estimator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #ffffff;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #111;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            background: #fafafa;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #111;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>CCTV Setup Cost Estimator</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Camera</label>
+        {{ form.camera }}
+
+        <label>Cable</label>
+        {{ form.cable }}
+
+        <label>DVR / NVR</label>
+        {{ form.recorder }}
+
+        <label>Channels</label>
+        {{ form.channel }}
+
+        <label>PoE Switch</label>
+        {{ form.poe }}
+
+        <button type="submit">Calculate Total Cost</button>
+    </form>
+
+    {% if total is not None %}
+    <div class="result">
+        <h3>Selected Items</h3>
+
+        {% for item in selected_items %}
+            <p>{{ item.category|title }} - {{ item.item_type }} : {{ item.price }}</p>
+        {% endfor %}
+
+        <hr>
+        <p class="price">Total Cost = {{ total }}</p>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
